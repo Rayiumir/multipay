@@ -51,6 +51,7 @@ For **Laravel** integration you can use [shetabit/payment](https://github.com/sh
 - [azkiVam (Installment payment)](https://www.azkivam.com/) :heavy_check_mark:
 - [behpardakht (mellat)](http://www.behpardakht.com/) :heavy_check_mark:
 - [bitpay](https://bitpay.ir/) :heavy_check_mark:
+- [daracard](https://daracard.co/) :heavy_check_mark:
 - [digipay](https://www.mydigipay.com/) :heavy_check_mark:
 - [etebarino (Installment payment)](https://etebarino.com/) :heavy_check_mark:
 - [fanavacard](https://www.fanava.com/) :heavy_check_mark:
@@ -306,6 +307,10 @@ try {
     // You can show payment referenceId to the user.
     echo $receipt->getReferenceId();
 
+    // And also you can access verify receipt detail
+    echo $receipt->getDetail('give-a-name')
+    // Or if you want all details
+    $receiptDetails = $receipt->getDetails()
     ...
 } catch (InvalidPaymentException $exception) {
     /**
@@ -420,13 +425,14 @@ try {
   	}
   );
 
-  // Also we can change multiple configs at the same time.
-  $payment->config(['key1' => 'value1', 'key2' => 'value2'])->purchase(
-      $invoice,
-      function($driver, $transactionId) {
-      // We can store $transactionId in database.
-  	}
-  );
+// We can also change multiple config values at the same time.
+// To use wages in Zarinpal, you can configure it as shown in the example below.
+$payment->config(['wages' => [use Zarinpal documentation for values], 'key1' => 'value1', 'key2' => 'value2'])->purchase(
+    $invoice,
+    function ($driver, $transactionId) {
+        // We can store $transactionId in the database.
+    }
+);
   ```
 - `custom fileds`: Use custom fields of gateway (Not all gateways support this feature)
   SEP gateway support up to 4 custom fields and you can set the value to a string up to 50 characters.
